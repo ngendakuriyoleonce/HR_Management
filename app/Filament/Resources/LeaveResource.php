@@ -94,14 +94,7 @@ class LeaveResource extends Resource
                                 'rejected' => 'Rejected',
                             ])
                             ->required()
-                            ->default('pending')
-                            ->badge()
-                            ->color(fn (string $state): string => match ($state) {
-                                'pending' => 'warning',
-                                'approved' => 'success',
-                                'rejected' => 'danger',
-                                default => 'gray',
-                            }),
+                            ->default('pending'),
 
                         Forms\Components\Select::make('approved_by')
                             ->label('Reviewed By')

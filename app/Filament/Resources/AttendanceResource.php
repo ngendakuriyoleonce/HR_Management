@@ -76,15 +76,7 @@ class AttendanceResource extends Resource
                                 'late' => 'Late',
                                 'half_day' => 'Half Day',
                             ])
-                            ->required()
-                            ->badge()
-                            ->color(fn (string $state): string => match ($state) {
-                                'present' => 'success',
-                                'late' => 'warning',
-                                'half_day' => 'info',
-                                'absent' => 'danger',
-                                default => 'gray',
-                            }),
+                            ->required(),
 
                         Forms\Components\Textarea::make('notes')
                             ->label('Notes')
