@@ -9,6 +9,8 @@ class EmployeesByDepartmentChart extends ChartWidget
 {
     protected ?string $heading = 'Employees by Department';
 
+    protected ?string $description = 'Employee distribution across departments';
+
     protected int | string | array $columnSpan = 'full';
 
     protected ?string $maxHeight = '300px';
@@ -36,6 +38,18 @@ class EmployeesByDepartmentChart extends ChartWidget
                         '#ec4899',
                         '#84cc16',
                     ],
+                    'borderColor' => [
+                        '#d97706',
+                        '#059669',
+                        '#2563eb',
+                        '#7c3aed',
+                        '#dc2626',
+                        '#0891b2',
+                        '#db2777',
+                        '#65a30d',
+                    ],
+                    'borderWidth' => 2,
+                    'hoverOffset' => 4,
                 ],
             ],
             'labels' => $departments->pluck('name')->toArray(),

@@ -9,13 +9,15 @@ class LeaveStatsChart extends ChartWidget
 {
     protected ?string $heading = 'Leave Requests by Status';
 
+    protected ?string $description = 'Distribution of leave request statuses';
+
     protected int | string | array $columnSpan = 'full';
 
     protected ?string $maxHeight = '300px';
 
     protected function getType(): string
     {
-        return 'pie';
+        return 'doughnut';
     }
 
     protected function getData(): array
@@ -29,6 +31,9 @@ class LeaveStatsChart extends ChartWidget
                 [
                     'data' => [$pending, $approved, $rejected],
                     'backgroundColor' => ['#f59e0b', '#10b981', '#ef4444'],
+                    'borderColor' => ['#d97706', '#059669', '#dc2626'],
+                    'borderWidth' => 2,
+                    'hoverOffset' => 4,
                 ],
             ],
             'labels' => ['Pending', 'Approved', 'Rejected'],
