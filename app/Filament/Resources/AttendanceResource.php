@@ -56,6 +56,7 @@ class AttendanceResource extends Resource
                         Forms\Components\DateTimePicker::make('clock_in')
                             ->label('Clock In Time')
                             ->seconds(false)
+                            ->default(now())
                             ->format('h:i A'),
 
                         Forms\Components\DateTimePicker::make('clock_out')
