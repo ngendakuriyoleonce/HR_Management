@@ -50,25 +50,30 @@
                     <p class="mt-1 text-sm text-gray-900 dark:text-white/90">{{ $leave->reason }}</p>
                 </div>
 
-                @if ($leave->notes)
-                    <div>
-                        <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Notes</p>
-                        <p class="mt-1 text-sm text-gray-900 dark:text-white/90">{{ $leave->notes }}</p>
+                <div>
+                    <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Submitted</p>
+                    <p class="mt-1 text-sm text-gray-900 dark:text-white/90">{{ $leave->created_at->format('M d, Y \a\t h:i A') }}</p>
+                </div>
+
+                @if ($leave->notes || $leave->approved_by)
+                    <div class="rounded-xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-white/[0.02]">
+                        <p class="mb-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">HR Review</p>
+                        @if ($leave->approved_by)
+                            <div class="mb-2 flex items-center gap-2">
+                                <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                </svg>
+                                <p class="text-sm text-gray-900 dark:text-white/90">{{ $leave->approver->full_name ?? '-' }}</p>
+                                <x-badge :color="$leave->status === 'approved' ? 'emerald' : 'red'" size="sm">
+                                    {{ ucfirst($leave->status) }}
+                                </x-badge>
+                            </div>
+                        @endif
+                        @if ($leave->notes)
+                            <p class="text-sm text-gray-700 dark:text-gray-300">{{ $leave->notes }}</p>
+                        @endif
                     </div>
                 @endif
-
-                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <div>
-                        <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Submitted</p>
-                        <p class="mt-1 text-sm text-gray-900 dark:text-white/90">{{ $leave->created_at->format('M d, Y \a\t h:i A') }}</p>
-                    </div>
-                    @if ($leave->approved_by)
-                        <div>
-                            <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Reviewed By</p>
-                            <p class="mt-1 text-sm text-gray-900 dark:text-white/90">{{ $leave->approver->full_name ?? '-' }}</p>
-                        </div>
-                    @endif
-                </div>
             </div>
 
             <div class="mt-6 flex flex-col gap-3 sm:flex-row">

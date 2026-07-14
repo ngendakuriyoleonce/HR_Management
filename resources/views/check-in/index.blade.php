@@ -34,12 +34,9 @@
             <x-card>
                 <h3 class="mb-4 text-lg font-semibold text-gray-800 dark:text-white/90 sm:mb-7">Attendance</h3>
 
-                <div class="mb-5 flex items-center gap-3 sm:mb-6 sm:gap-4">
-                    <x-avatar :employee="$employee" />
-                    <div>
-                        <h4 class="font-semibold text-gray-800 dark:text-white/90">{{ $employee->full_name }}</h4>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 sm:text-sm">{{ $employee->position }} &bull; {{ $employee->department->name ?? '' }}</p>
-                    </div>
+                <div class="mb-5 sm:mb-6">
+                    <h4 class="font-semibold text-gray-800 dark:text-white/90">{{ $employee->full_name }}</h4>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 sm:text-sm">{{ $employee->position }} &bull; {{ $employee->department->name ?? '' }}</p>
                 </div>
 
                 <div class="mb-5 text-center sm:mb-6">
