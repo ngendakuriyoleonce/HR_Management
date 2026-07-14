@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.check-in')
 
-@section('title', 'Employee Check-In')
+@section('title', 'Check-In')
 
 @section('content')
 <div x-data="checkInApp()" class="min-h-[calc(100vh-8rem)]">

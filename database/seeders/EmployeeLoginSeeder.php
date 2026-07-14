@@ -22,12 +22,14 @@ class EmployeeLoginSeeder extends Seeder
         );
 
         // HR Admin
-        $hrUser = User::create([
-            'name' => 'HR Admin',
-            'email' => 'hr@example.com',
-            'password' => bcrypt('password'),
-            'role' => 'hr',
-        ]);
+        $hrUser = User::firstOrCreate(
+            ['email' => 'hr@example.com'],
+            [
+                'name' => 'HR Admin',
+                'password' => bcrypt('password'),
+                'role' => 'hr',
+            ]
+        );
 
         Employee::create([
             'user_id' => $hrUser->id,
@@ -44,12 +46,14 @@ class EmployeeLoginSeeder extends Seeder
         ]);
 
         // Employee
-        $empUser = User::create([
-            'name' => 'John Employee',
-            'email' => 'employee@example.com',
-            'password' => bcrypt('password'),
-            'role' => 'employee',
-        ]);
+        $empUser = User::firstOrCreate(
+            ['email' => 'employee@example.com'],
+            [
+                'name' => 'John Employee',
+                'password' => bcrypt('password'),
+                'role' => 'employee',
+            ]
+        );
 
         Employee::create([
             'user_id' => $empUser->id,
@@ -67,12 +71,14 @@ class EmployeeLoginSeeder extends Seeder
         ]);
 
         // Manager
-        $mgrUser = User::create([
-            'name' => 'Jane Manager',
-            'email' => 'manager@example.com',
-            'password' => bcrypt('password'),
-            'role' => 'manager',
-        ]);
+        $mgrUser = User::firstOrCreate(
+            ['email' => 'manager@example.com'],
+            [
+                'name' => 'Jane Manager',
+                'password' => bcrypt('password'),
+                'role' => 'manager',
+            ]
+        );
 
         $manager = Employee::create([
             'user_id' => $mgrUser->id,

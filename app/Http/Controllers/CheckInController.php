@@ -13,7 +13,8 @@ class CheckInController extends Controller
 {
     public function index(Request $request): View
     {
-        $employee = Employee::where('user_id', $request->user()->id)->first();
+        $user = $request->user();
+        $employee = Employee::where('user_id', $user->id)->first();
 
         $todayAttendance = null;
         $isClockedIn = false;
@@ -34,7 +35,9 @@ class CheckInController extends Controller
                 ->get();
         }
 
-        return view('check-in.index', compact('employee', 'todayAttendance', 'isClockedIn', 'recentAttendances'));
+        $panel = $user->role === 'hr' ? 'hr' : ($user->role === 'manager' ? 'manager' : 'employee');
+
+        return view('check-in.index', compact('employee', 'todayAttendance', 'isClockedIn', 'recentAttendances', 'panel'));
     }
 
     public function clockIn(Request $request): RedirectResponse

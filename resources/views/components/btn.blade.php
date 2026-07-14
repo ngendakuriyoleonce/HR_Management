@@ -1,4 +1,4 @@
-@props(['color' => 'emerald', 'type' => 'button', 'icon' => null])
+@props(['color' => 'emerald', 'type' => 'button', 'icon' => null, 'href' => null])
 
 @php
     $base = 'inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-white shadow-theme-xs transition-colors';
@@ -12,11 +12,22 @@
     };
 @endphp
 
-<button type="{{ $type }}" {{ $attributes->merge(['class' => "$base $colors"]) }}>
-    @if ($icon)
-        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            {!! $icon !!}
-        </svg>
-    @endif
-    {{ $slot }}
-</button>
+@if ($href)
+    <a href="{{ $href }}" {{ $attributes->merge(['class' => "$base $colors"]) }}>
+        @if ($icon)
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {!! $icon !!}
+            </svg>
+        @endif
+        {{ $slot }}
+    </a>
+@else
+    <button type="{{ $type }}" {{ $attributes->merge(['class' => "$base $colors"]) }}>
+        @if ($icon)
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {!! $icon !!}
+            </svg>
+        @endif
+        {{ $slot }}
+    </button>
+@endif
