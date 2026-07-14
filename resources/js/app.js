@@ -3,20 +3,24 @@ document.addEventListener('alpine:init', () => {
         dark: false,
 
         init() {
-            const saved = localStorage.getItem('theme');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            var saved = localStorage.getItem('theme');
+            var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             this.dark = saved ? saved === 'dark' : prefersDark;
-            this.apply();
+            this._apply();
         },
 
         toggle() {
             this.dark = !this.dark;
             localStorage.setItem('theme', this.dark ? 'dark' : 'light');
-            this.apply();
+            this._apply();
         },
 
-        apply() {
-            document.documentElement.classList.toggle('dark', this.dark);
+        _apply() {
+            if (this.dark) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
         },
     });
 });
