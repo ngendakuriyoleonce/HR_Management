@@ -92,7 +92,11 @@
                         </div>
                         <div class="rounded-xl border border-gray-200 bg-gray-50 p-2.5 text-center dark:border-gray-800 dark:bg-white/[0.02] sm:p-3">
                             <p class="mb-0.5 text-xs text-gray-500 dark:text-gray-400">Clock Out</p>
-                            <p class="text-xs font-semibold text-gray-800 dark:text-white/90 sm:text-sm">{{ $todayAttendance->clock_out ? $todayAttendance->clock_out->format('h:i A') : '--' }}</p>
+                            @if ($isClockedIn)
+                                <p class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 sm:text-sm" x-text="liveTime">--:-- --</p>
+                            @else
+                                <p class="text-xs font-semibold text-gray-800 dark:text-white/90 sm:text-sm">{{ $todayAttendance->clock_out ? $todayAttendance->clock_out->format('h:i A') : '--' }}</p>
+                            @endif
                         </div>
                     </div>
                     @if ($todayAttendance->clock_out)
@@ -103,6 +107,11 @@
                         <div class="mt-2 rounded-xl border border-gray-200 bg-gray-50 p-2.5 text-center dark:border-gray-800 dark:bg-white/[0.02] sm:mt-3 sm:p-3">
                             <p class="mb-0.5 text-xs text-gray-500 dark:text-gray-400">Hours Worked</p>
                             <p class="text-xs font-semibold text-gray-800 dark:text-white/90 sm:text-sm">{{ number_format($hours, 1) }} hours</p>
+                        </div>
+                    @elseif ($isClockedIn)
+                        <div class="mt-2 rounded-xl border border-emerald-200 bg-emerald-50 p-2.5 text-center dark:border-emerald-800 dark:bg-emerald-900/20 sm:mt-3 sm:p-3">
+                            <p class="mb-0.5 text-xs text-emerald-600 dark:text-emerald-400">Time Elapsed</p>
+                            <p class="text-xs font-semibold text-emerald-700 dark:text-emerald-300 sm:text-sm" x-text="elapsed">--:--:--</p>
                         </div>
                     @endif
                 @endif
@@ -176,6 +185,10 @@
         return {
             currentTime: '',
             currentDate: '',
+            liveTime: '',
+            elapsed: '',
+            clockInAt: @json($todayAttendance && $todayAttendance->clock_in ? $todayAttendance->clock_in->timestamp : null),
+            isClockedIn: @json($isClockedIn),
             updateClock() {
                 const now = new Date();
                 this.currentTime = now.toLocaleTimeString('en-US', {
@@ -190,6 +203,21 @@
                     month: 'long',
                     day: 'numeric'
                 });
+                this.liveTime = now.toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: true
+                });
+                if (this.isClockedIn && this.clockInAt) {
+                    const diff = Math.floor((now.getTime() / 1000) - this.clockInAt);
+                    if (diff >= 0) {
+                        const h = Math.floor(diff / 3600);
+                        const m = Math.floor((diff % 3600) / 60);
+                        const s = diff % 60;
+                        this.elapsed = String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+                    }
+                }
             },
             init() {
                 this.updateClock();
